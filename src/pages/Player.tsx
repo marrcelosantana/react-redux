@@ -4,7 +4,11 @@ import { Header } from "../components/Header";
 import { Video } from "../components/Video";
 import { Module } from "../components/Module";
 
+import { useAppSelector } from "../store";
+
 export function Player() {
+  const modules = useAppSelector((state) => state.player.course.modules);
+
   return (
     <div className="h-screen bg-zinc-950 text-zinc-50 flex justify-center items-center">
       <div className="flex w-[1100px] flex-col gap-6">
@@ -30,17 +34,9 @@ export function Player() {
            bg-zinc-900 overflow-y-scroll scrollbar scrollbar-thin scrollbar-track-zinc-950
            scrollbar-thumb-zinc-800 divide-y-2 divide-zinc-900"
           >
-            <Module
-              moduleIndex={0}
-              title="Desvendando o Redux"
-              amountOfLessons={12}
-            />
-            <Module
-              moduleIndex={1}
-              title="Aplicando o Redux"
-              amountOfLessons={8}
-            />
-            <Module moduleIndex={2} title="Conclusões" amountOfLessons={3} />
+            {modules.map((module, index) => (
+              <Module module={module} moduleIndex={index} key={index} />
+            ))}
           </aside>
         </main>
       </div>
