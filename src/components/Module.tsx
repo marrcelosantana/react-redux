@@ -5,6 +5,8 @@ import { Lesson } from "./Lesson";
 import { ModuleDTO } from "../models/ModuleDTO";
 
 import { useAppSelector } from "../store";
+import { useDispatch } from "react-redux";
+import { play } from "../store/slices/player";
 
 interface ModuleProps {
   module: ModuleDTO;
@@ -12,9 +14,17 @@ interface ModuleProps {
 }
 
 export function Module({ module, moduleIndex }: ModuleProps) {
+  const { currentModuleIndex, currentLessonIndex } = useAppSelector((state) => {
+    const { currentModuleIndex, currentLessonIndex } = state.player;
+
+    return { currentModuleIndex, currentLessonIndex };
+  });
+
   const lessons = useAppSelector((state) => {
     return state.player.course.modules[moduleIndex].lessons;
   });
+
+  const dispatch = useDispatch();
 
   return (
     <Collapsible.Root className="group">
@@ -34,9 +44,19 @@ export function Module({ module, moduleIndex }: ModuleProps) {
 
       <Collapsible.Content>
         <nav className="relative flex flex-col gap-4 p-6">
-          {lessons.map((lesson) => (
-            <Lesson lesson={lesson} key={lesson.id} />
-          ))}
+          {lessons.map((lesson, lessonIndex) => {
+            const isCurrent =
+              currentModuleIndex === moduleIndex &&
+              currentLessonIndex === lessonIndex;
+            return (
+              <Lesson
+                lesson={lesson}
+                key={lesson.id}
+                onPlay={() => dispatch(play([moduleIndex, lessonIndex]))}
+                isCurrent={isCurrent}
+              />
+            );
+          })}
         </nav>
       </Collapsible.Content>
     </Collapsible.Root>
