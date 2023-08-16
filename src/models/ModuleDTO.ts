@@ -1,7 +1,7 @@
 import { LessonDTO } from "./LessonDTO";
 
 export type ModuleDTO = {
-  id: string;
+  id: number;
   title: string;
   lessons: LessonDTO[];
 };
