@@ -5,25 +5,18 @@ import { Header } from "../components/Header";
 import { Video } from "../components/Video";
 import { Module } from "../components/Module";
 
-import { useAppSelector } from "../store";
-import { start, useCurrentLesson } from "../store/slices/player";
-import { useDispatch } from "react-redux";
-
-import { api } from "../lib/axios";
+import { useAppDispatch, useAppSelector } from "../store";
+import { loadCourse, useCurrentLesson } from "../store/slices/player";
 
 export function Player() {
   const modules = useAppSelector((state) => state.player.course?.modules);
 
   const { currentLesson } = useCurrentLesson();
-  const dispatch = useDispatch();
 
-  async function fetchCourses() {
-    const response = await api.get("/courses/1");
-    dispatch(start(response.data));
-  }
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    fetchCourses();
+    dispatch(loadCourse());
   }, []);
 
   useEffect(() => {

@@ -1,13 +1,12 @@
 import ReactPlayer from "react-player";
 
-import { useDispatch } from "react-redux";
-
 import { next, useCurrentLesson } from "../store/slices/player";
+import { useAppDispatch } from "../store";
 
 export function Video() {
   const { currentLesson } = useCurrentLesson();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   function handlePlayNext() {
     dispatch(next());

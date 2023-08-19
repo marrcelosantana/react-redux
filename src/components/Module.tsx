@@ -4,8 +4,7 @@ import { ChevronDown } from "lucide-react";
 import { Lesson } from "./Lesson";
 import { ModuleDTO } from "../models/ModuleDTO";
 
-import { useAppSelector } from "../store";
-import { useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../store";
 import { play } from "../store/slices/player";
 
 interface ModuleProps {
@@ -24,7 +23,7 @@ export function Module({ module, moduleIndex }: ModuleProps) {
     return state.player.course?.modules[moduleIndex].lessons;
   });
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   return (
     <Collapsible.Root className="group" defaultOpen={moduleIndex === 0}>
